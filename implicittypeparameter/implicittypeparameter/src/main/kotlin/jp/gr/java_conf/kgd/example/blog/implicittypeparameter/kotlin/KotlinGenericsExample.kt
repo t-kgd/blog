@@ -22,27 +22,30 @@
  * THE SOFTWARE.
  */
 
-package jp.gr.java_conf.kgd.example.blog.implicittypeparameter.java;
+package jp.gr.java_conf.kgd.example.blog.implicittypeparameter.kotlin
 
-public class GenericsExample {
+inline fun reifiedTypeFunc<reified T>() {
+    println("name = " + T::class.simpleName)
+}
 
-    static <T> void printClassName(T... dummy) {
-        String name = dummy.getClass().getComponentType().getSimpleName();
-        System.out.println("name = " + name);
-    }
+fun normalFunc<T>(): Unit {
+    //    reifiedTypeFunc<T>()
+    // error
 
-    static <T> void badPrintClassName() {
-        GenericsExample.<T>printClassName();
-    }
+    reifiedTypeFunc<String>()
+    // ok
 
-    public static void main(String[] args) {
-        printClassName();
-        // name = Object
+    //    reifiedTypeFunc()
+    // error
 
-        GenericsExample.<String>printClassName();
-        // name = String
+    //    T::class
+    // error
+}
 
-        GenericsExample.<String>badPrintClassName();
-        // name = Object
-    }
+inline fun reifiedTypeFunc2<reified T>() {
+    reifiedTypeFunc<T>()
+    // ok
+
+    normalFunc<T>()
+    // ok
 }

@@ -29,14 +29,22 @@ import scala.reflect.ClassTag
 object ScalaGenericsExample {
 
   def printClassName[T]()(implicit c: ClassTag[T]): Unit = {
-    println("" + c.runtimeClass.getSimpleName)
+    println("name = " + c.runtimeClass.getSimpleName)
+  }
+
+  def badPrintClassName[T](): Unit = {
+    //    printClassName[T]()
+    printClassName[String]()
+    // compile error
   }
 
   def main(args: Array[String]) {
     printClassName()
-    // Nothing$
+    // name = Nothing$
 
     printClassName[String]()
-    // String
+    // name = String
+
+    //    badPrintClassName[String]()
   }
 }
