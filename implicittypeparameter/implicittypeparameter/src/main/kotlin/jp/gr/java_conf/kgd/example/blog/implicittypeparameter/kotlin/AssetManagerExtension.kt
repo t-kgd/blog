@@ -26,7 +26,6 @@ package jp.gr.java_conf.kgd.example.blog.implicittypeparameter.kotlin
 
 import com.badlogic.gdx.assets.AssetManager
 
-// シグニチャが被るのでメソッド名に2を付与している
 inline fun AssetManager.get2<reified T : Any>(filename: String): T {
     return get(filename, T::class.java)
 }

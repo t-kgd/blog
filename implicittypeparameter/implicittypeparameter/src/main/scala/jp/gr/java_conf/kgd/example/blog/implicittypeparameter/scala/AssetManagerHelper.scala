@@ -30,7 +30,6 @@ import scala.reflect.ClassTag
 
 class AssetManagerHelper(val m: AssetManager) {
 
-  // シグニチャ違うはずだけどなぜかコンパイルエラーになるのでメソッド名に2を付与している
   def load2[T](n: String)(implicit c: ClassTag[T]): Unit = {
     m.load(n, c.runtimeClass)
   }

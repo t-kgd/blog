@@ -43,6 +43,6 @@ public class GenericsExample {
         // String
 
         GenericsExample.<String>badPrintClassName();
-        // Object （残念！）
+        // Object
     }
 }

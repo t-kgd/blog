@@ -46,7 +46,6 @@ public class JavaExample {
         // etc
     }
 
-    // ラップして不格好なdummyを隠してみる
     public static <T> void load(AssetManager assetManager, String filename) {
         AssetManagerUtil.<T>load(assetManager, filename);
     }
@@ -54,6 +53,5 @@ public class JavaExample {
     public static void badExample() {
         AssetManager assetManager = new AssetManager();
         JavaExample.<Texture>load(assetManager, "foo.png");
-        // ラップしてdummyを隠したメソッドに明示的に型を指定しても、TがObject扱いになります。
     }
 }
