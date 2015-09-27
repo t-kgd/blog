@@ -22,7 +22,17 @@
  * THE SOFTWARE.
  */
 
-/**
- * Created by misakura on 2015/09/27.
- */
 package jp.gr.java_conf.kgd.example.blog.dynamicproxy;
+
+import java.lang.reflect.Method;
+
+/**
+ * メソッド実行前に呼ばれるリスナ。
+ *
+ * @param <T> 任意の型。
+ */
+@FunctionalInterface
+public interface OnPreInvokeListener<T> {
+
+    void onPreInvoke(T obj, Method method, Object[] args);
+}
