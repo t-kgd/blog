@@ -46,13 +46,13 @@ public class ProxyUtilTest {
 
         // Fire interceptor.
         proxy.get(0);
-        Assert.assertEquals(reactions.get(0), "preInvoke: get(0)");
-        Assert.assertEquals(reactions.get(1), "postInvoke: result -> foo");
+        Assert.assertEquals("preInvoke: get(0)", reactions.get(0));
+        Assert.assertEquals("postInvoke: result -> foo", reactions.get(1));
 
         // Fire interceptor.
         proxy.get(1);
-        Assert.assertEquals(reactions.get(2), "preInvoke: get(1)");
-        Assert.assertEquals(reactions.get(3), "postInvoke: result -> bar");
+        Assert.assertEquals("preInvoke: get(1)", reactions.get(2));
+        Assert.assertEquals("postInvoke: result -> bar", reactions.get(3));
     }
 
     @Test
