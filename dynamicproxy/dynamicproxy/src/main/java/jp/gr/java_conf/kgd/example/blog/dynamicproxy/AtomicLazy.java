@@ -24,15 +24,32 @@
 
 package jp.gr.java_conf.kgd.example.blog.dynamicproxy;
 
-import java.lang.reflect.Method;
+import java.util.function.Supplier;
 
-/**
- * メソッド実行後に呼ばれるリスナ。
- *
- * @param <T> 任意の型。
- */
-@FunctionalInterface
-public interface OnPostInvokeListener<T> {
+public class AtomicLazy<T> implements Lazy<T> {
 
-    void onPostInvoke(T obj, Method method, Object[] args, Object result, boolean isErrorOccurred);
+    private final Supplier<? extends T> lazyProvider;
+
+    private T value;
+
+    public AtomicLazy(Supplier<? extends T> lazyProvider) {
+        this.lazyProvider = lazyProvider;
+    }
+
+    @Override
+    public T get() {
+        if (!isEvaluated()) eval();
+        return value;
+    }
+
+    @Override
+    public boolean isEvaluated() {
+        return value != null;
+    }
+
+    synchronized private void eval() {
+        if (!isEvaluated()) {
+            value = lazyProvider.get();
+        }
+    }
 }

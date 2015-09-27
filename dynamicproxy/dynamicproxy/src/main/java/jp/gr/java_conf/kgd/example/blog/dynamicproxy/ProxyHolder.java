@@ -28,15 +28,39 @@ import java.util.List;
 
 public interface ProxyHolder<T> {
 
+    /**
+     * 生成された動的プロキシを返します。
+     * <p>
+     * このインスタンスのメソッドを呼び出すことで、前後のインターセプタが実行されます。
+     *
+     * @return
+     */
     T getProxy();
 
     /**
-     * @return ミュータブルなリスト。自由に内容を変えて良い。
+     * プロキシのメソッド実行前に呼び出されるインターセプタのリスト。
+     * <p>
+     * クラス内で保持しているリストの参照をそのまま返します。
+     *
+     * @return ミュータブルなリスト。
      */
     List<OnPreInvokeListener<? super T>> getOnPreInvokeListeners();
 
     /**
-     * @return ミュータブルなリスト。。自由に内容を変えて良い。
+     * プロキシのメソッド実行後に呼び出されるインターセプタのリスト。
+     * <p>
+     * クラス内で保持しているリストの参照をそのまま返します。
+     *
+     * @return ミュータブルなリスト。
      */
     List<OnPostInvokeListener<? super T>> getOnPostInvokeListeners();
+
+    /**
+     * プロキシのメソッド実行中に例外が発生した時に呼び出されるハンドラのリスト。
+     * <p>
+     * クラス内で保持しているリストの参照をそのまま返します。
+     *
+     * @return ミュータブルなリスト。
+     */
+    List<ErrorHandler<? super T>> getErrorHandlers();
 }
