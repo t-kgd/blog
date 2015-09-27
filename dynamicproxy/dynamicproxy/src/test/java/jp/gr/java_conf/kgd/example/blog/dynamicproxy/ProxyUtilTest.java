@@ -38,7 +38,7 @@ public class ProxyUtilTest {
         List<String> reactions = new ArrayList<>();
         List<String> target = Arrays.asList("foo", "bar");
 
-        ProxyHolder<List<String>> sut = ProxyUtil.createProxyHolder(target);
+        ProxyHolder<List<String>> sut = ProxyUtil.createLazyProxyHolder(() -> target);
         sut.getOnPreInvokeListeners().add((w, m, a) -> reactions.add("preInvoke: " + m.getName() + "(" + a[0] + ")"));
         sut.getOnPostInvokeListeners().add((w, m, a, r, e) -> reactions.add("postInvoke: " + "result" + " -> " + r));
 
@@ -60,7 +60,7 @@ public class ProxyUtilTest {
         List<String> reactions = new ArrayList<>();
         List<String> target = Arrays.asList("foo", "bar");
 
-        ProxyHolder<List<String>> sut = ProxyUtil.createProxyHolder(target);
+        ProxyHolder<List<String>> sut = ProxyUtil.createLazyProxyHolder(() -> target);
         sut.getErrorHandlers().add((w, m, a, t, r) -> {
             reactions.add(t.getClass().getSimpleName());
             return ErrorHandler.Result.stop(r);
@@ -74,12 +74,12 @@ public class ProxyUtilTest {
         List<String> proxy = sut.getProxy();
 
         // Fire error handler.
-        System.out.println(proxy.add("baz"));
+        proxy.add("baz");
         Assert.assertEquals("UnsupportedOperationException", reactions.get(0));
         Assert.assertEquals(1, reactions.size());
 
         // Fire error handler.
-        System.out.println(proxy.get(10));
+        proxy.get(10);
         Assert.assertEquals("ArrayIndexOutOfBoundsException", reactions.get(1));
     }
 }
