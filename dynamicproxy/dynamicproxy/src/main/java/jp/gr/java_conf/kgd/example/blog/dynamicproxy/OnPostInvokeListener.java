@@ -34,5 +34,5 @@ import java.lang.reflect.Method;
 @FunctionalInterface
 public interface OnPostInvokeListener<T> {
 
-    void onPostInvoke(T obj, Method method, Object[] args, Object result, boolean isErrorOccurred);
+    void onPostInvoke(T obj, Method method, Object[] args, Object result, Throwable targetException);
 }
