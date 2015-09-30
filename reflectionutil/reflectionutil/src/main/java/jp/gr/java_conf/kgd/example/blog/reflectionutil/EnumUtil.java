@@ -52,6 +52,10 @@ public class EnumUtil {
         }
     }
 
+    public static <T extends Enum<T>> T[] invokeValues(T... dummy) {
+        return invokeValues((Class<T>) dummy.getClass().getComponentType());
+    }
+
     // リフレクションのパフォーマンスが気になる場合はキャッシュしたり
     public static class EnumValuesCache {
 
