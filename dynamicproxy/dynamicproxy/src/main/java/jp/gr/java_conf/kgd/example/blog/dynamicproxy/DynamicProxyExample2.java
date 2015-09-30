@@ -28,13 +28,13 @@ import java.lang.reflect.Proxy;
 
 public class DynamicProxyExample2 {
 
-    // “K“–‚ÈƒCƒ“ƒ^[ƒtƒF[ƒX
+    // é©å½“ãªã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹
     interface Foo {
 
         String getName();
     }
 
-    // “K“–‚ÈÀ‘•
+    // é©å½“ãªå®Ÿè£…
     static class SimpleFoo implements Foo {
         @Override
         public String getName() {
@@ -49,20 +49,20 @@ public class DynamicProxyExample2 {
         ClassLoader classLoader = Foo.class.getClassLoader();
         Class<?>[] interfaces = new Class<?>[]{Foo.class};
         Foo proxy = (Foo) Proxy.newProxyInstance(classLoader, interfaces, (o, method, a) -> {
-            // ƒƒ\ƒbƒhÀs‘O‚Éƒƒ\ƒbƒh–¼‚ğo—Í
+            // ãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œå‰ã«ãƒ¡ã‚½ãƒƒãƒ‰åã‚’å‡ºåŠ›
             System.out.println("start " + method.getName());
 
-            // ƒƒ\ƒbƒhÀs
+            // ãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œ
             Object result = method.invoke(fooImpl, a);
 
-            // ƒƒ\ƒbƒhÀsŒã‚Éƒƒ\ƒbƒh–¼‚Æ–ß‚è’l‚ğo—Í
+            // ãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œå¾Œã«ãƒ¡ã‚½ãƒƒãƒ‰åã¨æˆ»ã‚Šå€¤ã‚’å‡ºåŠ›
             System.out.println("end " + method.getName() + ": result = " + result);
 
             return result;
         });
 
         proxy.getName();
-        // o—ÍF
+        // å‡ºåŠ›ï¼š
         // start getName
         // end getName: result = foo
     }

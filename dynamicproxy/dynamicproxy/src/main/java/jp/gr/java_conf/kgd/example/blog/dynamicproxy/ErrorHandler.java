@@ -27,7 +27,7 @@ package jp.gr.java_conf.kgd.example.blog.dynamicproxy;
 import java.lang.reflect.Method;
 
 /**
- * ���\�b�h���s���ɗ�O�����������ۂɏ������s���n���h���B
+ * メソッド実行中に例外が発生した際に処理を行うハンドラ。
  *
  * @param <T>
  */
@@ -35,19 +35,19 @@ import java.lang.reflect.Method;
 public interface ErrorHandler<T> {
 
     /**
-     * ���\�b�h���s���ɗ�O�����������ۂɏ����B
+     * メソッド実行中に例外が発生した際に処理。
      * <p>
-     * ������������A��ւ̌��ʂ�Ԃ����Ƃ��ł��܂��B
-     * ���̑�ւ̌��ʂ͎��̃n���h���ɓ`������܂��B
-     * �����A�`�����̂��~�������ꍇ��{@link Result#stopFlooding()}��<@code>true</code>��Ԃ��悤�ɂ��Ă��������B
-     * �`���͒��~����A���̎��_�ł�{@link Result#getValue()}�̒l����ւ̌��ʂƂ��ĕԂ���܂��B
+     * 処理をした後、代替の結果を返すことができます。
+     * この代替の結果は次のハンドラに伝搬されます。
+     * もし、伝搬自体を停止したい場合は{@link Result#stopFlooding()}で<@code>true</code>を返すようにしてください。
+     * 伝搬は中止され、その時点での{@link Result#getValue()}の値が代替の結果として返されます。
      *
      * @param obj
      * @param method
      * @param args
      * @param throwable
-     * @param prevResult ��O�̃n���h�����Ԃ�����ւ̌��ʁB
-     * @return ��ւ̌��ʂ�ێ�����C���X�^���X�B���̃C���X�^���X���̂�null�ɂ��Ă͂����܂���B�Ώۂ̖߂�l���v���~�e�B�u�̏ꍇ�A�K�؂Ȓl��Ԃ��K�v������܂��B
+     * @param prevResult 一つ前のハンドラが返した代替の結果。
+     * @return 代替の結果を保持するインスタンス。このインスタンス自体をnullにしてはいけません。対象の戻り値がプリミティブの場合、適切な値を返す必要があります。
      */
     Result onHandleError(T obj, Method method, Object[] args, Throwable throwable, Object prevResult);
 

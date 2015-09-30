@@ -27,9 +27,9 @@ package jp.gr.java_conf.kgd.example.blog.dynamicproxy;
 import java.lang.reflect.Method;
 
 /**
- * ���\�b�h���s�O�ɌĂ΂�郊�X�i�B
+ * メソッド実行前に呼ばれるリスナ。
  *
- * @param <T> �C�ӂ̌^�B
+ * @param <T> 任意の型。
  */
 @FunctionalInterface
 public interface OnPreInvokeListener<T> {

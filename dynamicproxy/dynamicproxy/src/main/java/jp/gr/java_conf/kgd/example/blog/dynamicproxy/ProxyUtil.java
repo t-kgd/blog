@@ -34,7 +34,7 @@ import java.util.function.Supplier;
 
 public class ProxyUtil {
 
-    // [private] ƒŠƒXƒi‚ğŠO‚©‚ç“n‚·ƒpƒ^[ƒ“
+    // [private] ãƒªã‚¹ãƒŠã‚’å¤–ã‹ã‚‰æ¸¡ã™ãƒ‘ã‚¿ãƒ¼ãƒ³
     private static <T> T createProxy(Supplier<? extends T> lazyWrapped, Class<?> clazz,
                                      List<OnPreInvokeListener<? super T>> onPreInvokeListeners,
                                      List<OnPostInvokeListener<? super T>> onPostInvokeListeners,
@@ -45,7 +45,7 @@ public class ProxyUtil {
         return proxy;
     }
 
-    // [private] ƒŠƒXƒi‚ğŒã‚©‚çæ‚èo‚¹‚é‚æ‚¤‚É‚·‚éƒpƒ^[ƒ“
+    // [private] ãƒªã‚¹ãƒŠã‚’å¾Œã‹ã‚‰å–ã‚Šå‡ºã›ã‚‹ã‚ˆã†ã«ã™ã‚‹ãƒ‘ã‚¿ãƒ¼ãƒ³
     private static <T> ProxyHolder<T> createProxyHolder(Supplier<? extends T> lazyWrapped, Class<?> clazz,
                                                         List<OnPreInvokeListener<? super T>> onPreInvokeListeners,
                                                         List<OnPostInvokeListener<? super T>> onPostInvokeListeners,
@@ -58,19 +58,19 @@ public class ProxyUtil {
     }
 
     /**
-     * “®“IƒvƒƒLƒV‚ğ¶¬‚·‚éB
+     * å‹•çš„ãƒ—ãƒ­ã‚­ã‚·ã‚’ç”Ÿæˆã™ã‚‹ã€‚
      * <p>
-     * ”CˆÓ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğƒ‰ƒbƒv‚µAƒƒ\ƒbƒh‚Ì‘OŒã‚Éˆ—‚ğ‹²‚Ş‚±‚Æ‚Ì‚Å‚«‚éƒvƒƒLƒV‚ğ¶¬‚µ‚Ü‚·B
-     * <code>lazyWrapped#get</>‚ÍAƒvƒƒLƒV‚Ìƒƒ\ƒbƒh‚ªŒÄ‚Ñ‚¾‚³‚ê‚é‚½‚Ñ‚ÉŒÄ‚Ño‚³‚ê‚Ü‚·B
-     * ŠeƒŠƒXƒi[‚ÌListƒCƒ“ƒXƒ^ƒ“ƒX‚Í‚»‚Ì‚Ü‚ÜƒvƒƒLƒV‚ÉQÆ‚³‚ê‚é‚Ì‚ÅA—v‘f‚É•ÏX‚ğ‰Á‚¦‚ê‚ÎƒvƒƒLƒV‚ÌƒŠƒXƒi‚ğ•ÏX‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚·B
+     * ä»»æ„ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ãƒ©ãƒƒãƒ—ã—ã€ãƒ¡ã‚½ãƒƒãƒ‰ã®å‰å¾Œã«å‡¦ç†ã‚’æŒŸã‚€ã“ã¨ã®ã§ãã‚‹ãƒ—ãƒ­ã‚­ã‚·ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
+     * <code>lazyWrapped#get</>ã¯ã€ãƒ—ãƒ­ã‚­ã‚·ã®ãƒ¡ã‚½ãƒƒãƒ‰ãŒå‘¼ã³ã ã•ã‚Œã‚‹ãŸã³ã«å‘¼ã³å‡ºã•ã‚Œã¾ã™ã€‚
+     * å„ãƒªã‚¹ãƒŠãƒ¼ã®Listã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã¯ãã®ã¾ã¾ãƒ—ãƒ­ã‚­ã‚·ã«å‚ç…§ã•ã‚Œã‚‹ã®ã§ã€è¦ç´ ã«å¤‰æ›´ã‚’åŠ ãˆã‚Œã°ãƒ—ãƒ­ã‚­ã‚·ã®ãƒªã‚¹ãƒŠã‚’å¤‰æ›´ã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ã€‚
      *
      * @param lazyWrapped
      * @param onPreInvokeListeners
      * @param onPostInvokeListeners
      * @param errorHandlers
-     * @param dummy                 Œ^î•ñ‚ğó‚¯æ‚é‚½‚ß‚Ìƒ_ƒ~[‚Ìˆø”B
-     * @param <T>                   ƒCƒ“ƒ^[ƒtƒF[ƒX‚Å‚ ‚é•K—v‚ª‚ ‚è‚Ü‚·B
-     * @return ¶¬‚µ‚½ƒvƒƒLƒVB
+     * @param dummy                 å‹æƒ…å ±ã‚’å—ã‘å–ã‚‹ãŸã‚ã®ãƒ€ãƒŸãƒ¼ã®å¼•æ•°ã€‚
+     * @param <T>                   ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã§ã‚ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚
+     * @return ç”Ÿæˆã—ãŸãƒ—ãƒ­ã‚­ã‚·ã€‚
      */
     public static <T> T createLazyProxy(Supplier<? extends T> lazyWrapped,
                                         List<OnPreInvokeListener<? super T>> onPreInvokeListeners,
@@ -81,19 +81,19 @@ public class ProxyUtil {
     }
 
     /**
-     * “®“IƒvƒƒLƒV‚ğ¶¬‚·‚éB
+     * å‹•çš„ãƒ—ãƒ­ã‚­ã‚·ã‚’ç”Ÿæˆã™ã‚‹ã€‚
      * <p>
-     * ”CˆÓ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğƒ‰ƒbƒv‚µAƒƒ\ƒbƒh‚Ì‘OŒã‚Éˆ—‚ğ‹²‚Ş‚±‚Æ‚Ì‚Å‚«‚éƒvƒƒLƒV‚ğ¶¬‚µ‚Ü‚·B
-     * <code>lazyWrapped#get</>‚ÍAƒvƒƒLƒV‚Ìƒƒ\ƒbƒh‚ªŒÄ‚Ñ‚¾‚³‚ê‚é‚½‚Ñ‚ÉŒÄ‚Ño‚³‚ê‚Ü‚·B
-     * ¶¬‚µ‚½ƒvƒƒLƒV‚Í{@link ProxyHolder}‚É•ïŠÜ‚³‚ê‚Ä•Ô‚³‚ê‚Ü‚·B
+     * ä»»æ„ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ãƒ©ãƒƒãƒ—ã—ã€ãƒ¡ã‚½ãƒƒãƒ‰ã®å‰å¾Œã«å‡¦ç†ã‚’æŒŸã‚€ã“ã¨ã®ã§ãã‚‹ãƒ—ãƒ­ã‚­ã‚·ã‚’ç”Ÿæˆã—ã¾ã™ã€‚
+     * <code>lazyWrapped#get</>ã¯ã€ãƒ—ãƒ­ã‚­ã‚·ã®ãƒ¡ã‚½ãƒƒãƒ‰ãŒå‘¼ã³ã ã•ã‚Œã‚‹ãŸã³ã«å‘¼ã³å‡ºã•ã‚Œã¾ã™ã€‚
+     * ç”Ÿæˆã—ãŸãƒ—ãƒ­ã‚­ã‚·ã¯{@link ProxyHolder}ã«åŒ…å«ã•ã‚Œã¦è¿”ã•ã‚Œã¾ã™ã€‚
      *
      * @param lazyWrapped
      * @param onPreInvokeListeners
      * @param onPostInvokeListeners
      * @param errorHandlers
-     * @param dummy                 Œ^î•ñ‚ğó‚¯æ‚é‚½‚ß‚Ìƒ_ƒ~[‚Ìˆø”B
-     * @param <T>                   ƒCƒ“ƒ^[ƒtƒF[ƒX‚Å‚ ‚é•K—v‚ª‚ ‚è‚Ü‚·B
-     * @return ¶¬‚µ‚½ƒvƒƒLƒV‚ğ•ïŠÜ‚µ‚½ƒCƒ“ƒXƒ^ƒ“ƒXB
+     * @param dummy                 å‹æƒ…å ±ã‚’å—ã‘å–ã‚‹ãŸã‚ã®ãƒ€ãƒŸãƒ¼ã®å¼•æ•°ã€‚
+     * @param <T>                   ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã§ã‚ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚
+     * @return ç”Ÿæˆã—ãŸãƒ—ãƒ­ã‚­ã‚·ã‚’åŒ…å«ã—ãŸã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€‚
      */
     public static <T> ProxyHolder<T> createLazyProxyHolder(Supplier<? extends T> lazyWrapped,
                                                            List<OnPreInvokeListener<? super T>> onPreInvokeListeners,
@@ -105,28 +105,28 @@ public class ProxyUtil {
 
 
     /**
-     * “®“IƒvƒƒLƒV‚ğ¶¬‚·‚éB
+     * å‹•çš„ãƒ—ãƒ­ã‚­ã‚·ã‚’ç”Ÿæˆã™ã‚‹ã€‚
      * <p>
-     * ‹ó‚ÌƒŠƒXƒi[List‚ğ¶¬‚µ‚Ä{@link #createLazyProxy(Supplier, List, List, List, Object[])}‚ÉˆÏ÷‚µ‚Ü‚·B
+     * ç©ºã®ãƒªã‚¹ãƒŠãƒ¼Listã‚’ç”Ÿæˆã—ã¦{@link #createLazyProxy(Supplier, List, List, List, Object[])}ã«å§”è­²ã—ã¾ã™ã€‚
      *
      * @param lazyWrapped
-     * @param dummy       Œ^î•ñ‚ğó‚¯æ‚é‚½‚ß‚Ìƒ_ƒ~[‚Ìˆø”B
-     * @param <T>         ƒCƒ“ƒ^[ƒtƒF[ƒX‚Å‚ ‚é•K—v‚ª‚ ‚è‚Ü‚·B
-     * @return ¶¬‚µ‚½ƒvƒƒLƒV‚ğ•ïŠÜ‚µ‚½ƒCƒ“ƒXƒ^ƒ“ƒXB
+     * @param dummy       å‹æƒ…å ±ã‚’å—ã‘å–ã‚‹ãŸã‚ã®ãƒ€ãƒŸãƒ¼ã®å¼•æ•°ã€‚
+     * @param <T>         ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã§ã‚ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚
+     * @return ç”Ÿæˆã—ãŸãƒ—ãƒ­ã‚­ã‚·ã‚’åŒ…å«ã—ãŸã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€‚
      */
     public static <T> T createLazyProxy(Supplier<? extends T> lazyWrapped, T... dummy) {
         return createProxy(lazyWrapped, dummy.getClass().getComponentType(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>());
     }
 
     /**
-     * “®“IƒvƒƒLƒV‚ğ¶¬‚·‚éB
+     * å‹•çš„ãƒ—ãƒ­ã‚­ã‚·ã‚’ç”Ÿæˆã™ã‚‹ã€‚
      * <p>
-     * ‹ó‚ÌƒŠƒXƒi[List‚ğ¶¬‚µ‚Ä{@link #createLazyProxyHolder(Supplier, List, List, List, Object[])}‚ÉˆÏ÷‚µ‚Ü‚·B
+     * ç©ºã®ãƒªã‚¹ãƒŠãƒ¼Listã‚’ç”Ÿæˆã—ã¦{@link #createLazyProxyHolder(Supplier, List, List, List, Object[])}ã«å§”è­²ã—ã¾ã™ã€‚
      *
      * @param lazyWrapped
-     * @param dummy       Œ^î•ñ‚ğó‚¯æ‚é‚½‚ß‚Ìƒ_ƒ~[‚Ìˆø”B
-     * @param <T>         ƒCƒ“ƒ^[ƒtƒF[ƒX‚Å‚ ‚é•K—v‚ª‚ ‚è‚Ü‚·B
-     * @return ¶¬‚µ‚½ƒvƒƒLƒV‚ğ•ïŠÜ‚µ‚½ƒCƒ“ƒXƒ^ƒ“ƒXB
+     * @param dummy       å‹æƒ…å ±ã‚’å—ã‘å–ã‚‹ãŸã‚ã®ãƒ€ãƒŸãƒ¼ã®å¼•æ•°ã€‚
+     * @param <T>         ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã§ã‚ã‚‹å¿…è¦ãŒã‚ã‚Šã¾ã™ã€‚
+     * @return ç”Ÿæˆã—ãŸãƒ—ãƒ­ã‚­ã‚·ã‚’åŒ…å«ã—ãŸã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€‚
      */
     public static <T> ProxyHolder<T> createLazyProxyHolder(Supplier<? extends T> lazyWrapped, T... dummy) {
         return createProxyHolder(lazyWrapped, dummy.getClass().getComponentType(), new LinkedList<>(), new LinkedList<>(), new LinkedList<>());
@@ -155,7 +155,7 @@ public class ProxyUtil {
     }
 
     /*
-     * ƒCƒ“ƒ^[ƒZƒvƒ^‚Ìˆ—‚ğ‘OŒã‚É‹²‚Şƒnƒ“ƒhƒ‰B
+     * ã‚¤ãƒ³ã‚¿ãƒ¼ã‚»ãƒ—ã‚¿ã®å‡¦ç†ã‚’å‰å¾Œã«æŒŸã‚€ãƒãƒ³ãƒ‰ãƒ©ã€‚
      */
     private static class Handler<T> implements InvocationHandler {
 
@@ -183,19 +183,19 @@ public class ProxyUtil {
 
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            // ƒƒ\ƒbƒh‘OƒCƒ“ƒ^[ƒZƒvƒ^
+            // ãƒ¡ã‚½ãƒƒãƒ‰å‰ã‚¤ãƒ³ã‚¿ãƒ¼ã‚»ãƒ—ã‚¿
             onPreInvokeListeners.forEach(listener -> listener.onPreInvoke(wrapped.get(), method, args));
 
             Object result = ErrorHandler.Result.UNDEFINED;
             Throwable targetException = null;
             try {
-                // ƒƒ\ƒbƒh‚ÌÀs
+                // ãƒ¡ã‚½ãƒƒãƒ‰ã®å®Ÿè¡Œ
                 result = method.invoke(wrapped.get(), args);
             } catch (InvocationTargetException e) {
-                // —áŠO‚ª”­¶‚µ‚½‚Ì‚ÅƒGƒ‰[ƒnƒ“ƒhƒ‰‚Åˆ—‚·‚éB
+                // ä¾‹å¤–ãŒç™ºç”Ÿã—ãŸã®ã§ã‚¨ãƒ©ãƒ¼ãƒãƒ³ãƒ‰ãƒ©ã§å‡¦ç†ã™ã‚‹ã€‚
                 targetException = e.getTargetException();
 
-                //ƒGƒ‰[ƒnƒ“ƒhƒ‰‚ª‚P‚Â‚à‚È‚©‚Á‚½‚ç—áŠO‚ğ‚»‚Ì‚Ü‚ÜƒXƒ[‚·‚é
+                //ã‚¨ãƒ©ãƒ¼ãƒãƒ³ãƒ‰ãƒ©ãŒï¼‘ã¤ã‚‚ãªã‹ã£ãŸã‚‰ä¾‹å¤–ã‚’ãã®ã¾ã¾ã‚¹ãƒ­ãƒ¼ã™ã‚‹
                 if (errorHandlers.isEmpty()) {
                     throw targetException;
                 }
@@ -207,14 +207,14 @@ public class ProxyUtil {
                 }
 
             } finally {
-                // ƒ‰ƒ€ƒ_—p‚ÉÀ¿“Ifinal‚È•Ï”‚É‘ã“ü‚·‚é
+                // ãƒ©ãƒ ãƒ€ç”¨ã«å®Ÿè³ªçš„finalãªå¤‰æ•°ã«ä»£å…¥ã™ã‚‹
                 Object result2 = result;
                 Throwable targetException2 = targetException;
                 onPostInvokeListeners.forEach(listener -> listener.onPostInvoke(wrapped.get(), method, args, result2, targetException2));
 
             }
 
-            // ˆê“x‚à“KØ‚È‘ã‘Ö–ß‚è’l‚ªw’è‚³‚ê‚Ä‚¢‚È‚¢ê‡AƒfƒtƒHƒ‹ƒg’l‚Å•Ô‚·B
+            // ä¸€åº¦ã‚‚é©åˆ‡ãªä»£æ›¿æˆ»ã‚Šå€¤ãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã„å ´åˆã€ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã§è¿”ã™ã€‚
             if (result == ErrorHandler.Result.UNDEFINED) {
                 return ReflectionUtil.getDefaultValue(method.getReturnType());
             } else {
@@ -236,9 +236,9 @@ public class ProxyUtil {
     }
 
     /*
-     * “®“IƒvƒƒLƒV‚É‹@”\i—á‚¦‚ÎƒCƒ“ƒ^[ƒZƒvƒ^‚Ì•t‚¯‘Ö‚¦j‚ğ’Ç‰Á‚µ‚½‚­‚Ä‚àA
-     * ƒRƒ“ƒpƒCƒ‹‚ÍŠù‘¶‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚Æ‚µ‚Ä‚µ‚©U‚é•‘‚¦‚È‚¢‚Ì‚ÅA
-     * ƒ‰ƒbƒp[‚ğ—pˆÓ‚µ‚Äƒ‰ƒbƒp[‚É‹@”\‚ğ‚½‚¹‚é‚±‚Æ‚É‚·‚éB
+     * å‹•çš„ãƒ—ãƒ­ã‚­ã‚·ã«æ©Ÿèƒ½ï¼ˆä¾‹ãˆã°ã‚¤ãƒ³ã‚¿ãƒ¼ã‚»ãƒ—ã‚¿ã®ä»˜ã‘æ›¿ãˆï¼‰ã‚’è¿½åŠ ã—ãŸãã¦ã‚‚ã€
+     * ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«æ™‚ã¯æ—¢å­˜ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã¨ã—ã¦ã—ã‹æŒ¯ã‚‹èˆãˆãªã„ã®ã§ã€
+     * ãƒ©ãƒƒãƒ‘ãƒ¼ã‚’ç”¨æ„ã—ã¦ãƒ©ãƒƒãƒ‘ãƒ¼ã«æ©Ÿèƒ½ã‚’æŒãŸã›ã‚‹ã“ã¨ã«ã™ã‚‹ã€‚
      */
     private static class SimpleProxyHolder<T> implements ProxyHolder<T> {
 

@@ -32,7 +32,7 @@ import java.util.Set;
 public class ReflectionUtil {
 
     /**
-     * Œp³ŠÖŒW‚É‚ ‚é‘S‚Ä‚ÌƒCƒ“ƒ^[ƒtƒF[ƒX‚ğ’Šo‚·‚éB
+     * ç¶™æ‰¿é–¢ä¿‚ã«ã‚ã‚‹å…¨ã¦ã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ãƒ¼ã‚¹ã‚’æŠ½å‡ºã™ã‚‹ã€‚
      *
      * @param clazz
      * @return
@@ -46,7 +46,7 @@ public class ReflectionUtil {
     }
 
     /*
-     * class‚Å‚ ‚ê‚ÎAeclass‚ğ’H‚è‚È‚ª‚çinterface‚ğ‰ñû‚µ‚Ä‚¢‚¯‚Î‘S‚Ä‚Ìinterface‚ªæ“¾‚Å‚«‚éB
+     * classã§ã‚ã‚Œã°ã€è¦ªclassã‚’è¾¿ã‚ŠãªãŒã‚‰interfaceã‚’å›åã—ã¦ã„ã‘ã°å…¨ã¦ã®interfaceãŒå–å¾—ã§ãã‚‹ã€‚
      */
     private static Class<?>[] extractInterfacesFromClass(Class<?> clazz) {
         Set<Class<?>> interfaces = new HashSet<>();
@@ -59,7 +59,7 @@ public class ReflectionUtil {
     }
 
     /*
-     * interface‚Å‚ ‚ê‚ÎAeinterface‚ğ’H‚è‚È‚ª‚çÄ‹A“I‚Éinterface‚ğ‰ñû‚µ‚Ä‚¢‚¯‚Î‘S‚Ä‚Ìinterface‚ªæ“¾‚Å‚«‚éB
+     * interfaceã§ã‚ã‚Œã°ã€è¦ªinterfaceã‚’è¾¿ã‚ŠãªãŒã‚‰å†å¸°çš„ã«interfaceã‚’å›åã—ã¦ã„ã‘ã°å…¨ã¦ã®interfaceãŒå–å¾—ã§ãã‚‹ã€‚
      */
     private static Class<?>[] extractInterfacesFromInterface(Class<?> interfaze) {
         Set<Class<?>> interfaces = new HashSet<>();

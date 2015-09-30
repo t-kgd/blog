@@ -28,7 +28,7 @@ import java.lang.reflect.Proxy;
 
 public class DynamicProxyExample {
 
-    // �K���ȃC���^�[�t�F�[�X
+    // 適当なインターフェース
     interface Foo {
 
         String getName();
@@ -41,13 +41,13 @@ public class DynamicProxyExample {
         Foo proxy = (Foo) Proxy.newProxyInstance(classLoader, interfaces, (o, method, a) -> {
 
             /*
-             * ���\�b�h���Ă΂ꂽ�炱���̏��������s�����
+             * メソッドが呼ばれたらここの処理が実行される
              */
 
-            return "foo";  // ���ꂪ�߂�l�ɂȂ�
+            return "foo";  // これが戻り値になる
         });
 
         System.out.println(proxy.getName());
-        // �o�́Ffoo
+        // 出力：foo
     }
 }
