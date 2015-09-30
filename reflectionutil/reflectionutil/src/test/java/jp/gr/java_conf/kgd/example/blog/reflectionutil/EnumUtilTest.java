@@ -28,6 +28,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -59,7 +60,14 @@ public class EnumUtilTest {
         List<Foo> b = sut.getValues(Foo.class);
 
         // キャッシュしてるので同一インスタンスが返るはず
-        assertThat(a, sameInstance(b));
+        assertThat(a, is(sameInstance(b)));
+    }
+
+    @Test
+    public void createEnumMapTest() {
+        Map<Foo, String> actual = EnumUtil.createEnumMap(k -> k.name().toLowerCase());
+        assertThat(actual.keySet(), is(contains(Foo.A, Foo.B, Foo.C)));
+        assertThat(actual.values(), is(contains("a", "b", "c")));
     }
 }
 

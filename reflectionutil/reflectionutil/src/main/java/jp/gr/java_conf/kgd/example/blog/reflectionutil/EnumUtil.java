@@ -28,9 +28,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 
 public class EnumUtil {
 
@@ -70,5 +72,18 @@ public class EnumUtil {
 
             return (List<T>) result;
         }
+    }
+
+    private static final EnumValuesCache enumValuesCache = new EnumValuesCache();
+
+    public static <K extends Enum<K>, V> Map<K, V> createEnumMap(Class<K> enumType, Function<? super K, ? extends V> defaultValueProvider) {
+        Map<K, V> map = new EnumMap<>(enumType);
+        enumValuesCache.getValues(enumType).forEach(k -> map.put(k, defaultValueProvider.apply(k)));
+        return map;
+    }
+
+    // 先日ネタ、Classインスタンス省略バージョン
+    public static <K extends Enum<K>, V> Map<K, V> createEnumMap(Function<? super K, ? extends V> defaultValueProvider, K... dummy) {
+        return createEnumMap((Class<K>) dummy.getClass().getComponentType(), defaultValueProvider);
     }
 }
