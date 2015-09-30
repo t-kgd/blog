@@ -117,6 +117,18 @@ public class GenericsUtilTest {
         }
 
         {
+            Type actual = GenericsUtil.getTypeParameterType(SimpleBar.class, Bar.class, 0);
+            String actualName = actual.getTypeName();
+            assertThat(actualName, is("java.lang.Integer"));
+        }
+
+        {
+            Type actual = GenericsUtil.getTypeParameterType(SimpleBar.class, Bar.class, 1);
+            String actualName = actual.getTypeName();
+            assertThat(actualName, is("java.lang.Double"));
+        }
+
+        {
             Type actual = GenericsUtil.getTypeParameterType(ChainExample2.class, Foo.class, "F0");
             String actualName = actual.getTypeName();
             assertThat(actualName, is("java.lang.Byte"));
@@ -156,7 +168,3 @@ public class GenericsUtilTest {
         }
     }
 }
-
-
-
-

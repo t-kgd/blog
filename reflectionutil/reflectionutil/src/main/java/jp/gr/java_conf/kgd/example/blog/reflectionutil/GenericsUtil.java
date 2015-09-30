@@ -89,6 +89,7 @@ public class GenericsUtil {
      * あるクラスの、子クラスで束縛された型パラメータを取り出す。
      * <p>
      * 対象の型パラメータが子クラスにおいてまだ束縛されていない場合、<code>null</code>を返します。
+     * 指定した親クラスが型パラメータを持たない場合や、指定した名前の型パラメータが存在しない場合はnullを返します。
      *
      * @param child             型パラメータが束縛されてある可能性のある子クラス
      * @param parent            走査したい型パラメータを持つ親クラス
@@ -97,11 +98,42 @@ public class GenericsUtil {
      * @return 束縛されてない場合は<code>null</code>を返します。
      */
     public static <T> Type getTypeParameterType(Class<? extends T> child, Class<T> parent, String typeParameterName) {
+        TypeVariable<Class<T>>[] typeParameters = parent.getTypeParameters();
+        if (typeParameters.length == 0) return null;
+        if (match(typeParameters, t -> t.getName().equals(typeParameterName)) == null) return null;
         return searchTypeParameterType(getClassHierarchy(child, parent), typeParameterName);
     }
 
+    /**
+     * あるクラスの、子クラスで束縛された型パラメータを取り出す。
+     * <p>
+     * 対象の型パラメータが子クラスにおいてまだ束縛されていない場合、<code>null</code>を返します。
+     * {@link Class#getTypeParameters()}から<code>index</code>番目にある型パラメータの名前を取得し、
+     * {@link #getTypeParameterType(Class, Class, String)}に委譲します。
+     *
+     * @param child  型パラメータが束縛されてある可能性のある子クラス
+     * @param parent 走査したい型パラメータを持つ親クラス
+     * @param index  　親クラスでの型パラメータのインデックス
+     * @param <T>
+     * @return
+     */
     public static <T> Type getTypeParameterType(Class<? extends T> child, Class<T> parent, int index) {
-        return searchTypeParameterType(getClassHierarchy(child, parent), "");
+        return getTypeParameterType(child, parent, parent.getTypeParameters()[index].getName());
+    }
+
+    /**
+     * あるクラスの、子クラスで束縛された型パラメータを取り出す。
+     * <p>
+     * 対象の型パラメータが子クラスにおいてまだ束縛されていない場合、<code>null</code>を返します。
+     * <code>index</code>を0として{@link #getTypeParameterType(Class, Class, int)}に委譲します。
+     *
+     * @param child  型パラメータが束縛されてある可能性のある子クラス
+     * @param parent 走査したい型パラメータを持つ親クラス
+     * @param <T>
+     * @return
+     */
+    public static <T> Type getTypeParameterType(Class<? extends T> child, Class<T> parent) {
+        return getTypeParameterType(child, parent, 0);
     }
 
     private static Type searchTypeParameterType(List<Class<?>> hierarchy, String targetTypeParameterName) {
@@ -138,7 +170,9 @@ public class GenericsUtil {
     }
 
     private static <T> T match(T[] values, Predicate<? super T> predicate) {
-        return values[indexOf(values, predicate)];
+        int i = indexOf(values, predicate);
+        if (i < 0) return null;
+        return values[i];
     }
 
     /**
