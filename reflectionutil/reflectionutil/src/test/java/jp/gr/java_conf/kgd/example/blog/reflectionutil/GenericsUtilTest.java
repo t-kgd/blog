@@ -30,8 +30,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 
 public class GenericsUtilTest {
 
@@ -166,5 +165,21 @@ public class GenericsUtilTest {
             // 束縛されていれば、型パラメータの中身の情報も持っている
             assertThat(actualName, is("java.util.List<java.lang.String>"));
         }
+    }
+
+    public void typeParameterCacheTest() {
+        GenericsUtil.TypeParameterCache sut = new GenericsUtil.TypeParameterCache();
+
+        {
+            List<Class<?>> a = sut.getClassHierarchy(SimpleFoo.class, Foo.class);
+            List<Class<?>> b = sut.getClassHierarchy(SimpleFoo.class, Foo.class);
+            assertThat(a, is(sameInstance(b)));
+        }
+
+        {
+            Type type = sut.getTypeParameterType(SimpleFoo.class, Foo.class, "F0");
+            Class<?> clazz = sut.typeToClass(type);
+        }
+
     }
 }

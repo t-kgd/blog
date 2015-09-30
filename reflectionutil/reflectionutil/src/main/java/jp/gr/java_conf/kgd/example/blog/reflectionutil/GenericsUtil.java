@@ -30,9 +30,12 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Predicate;
 
 public class GenericsUtil {
@@ -47,7 +50,7 @@ public class GenericsUtil {
      * @param child  階層の最下部となる子クラス。
      * @param parent 階層の最上部となる親クラス。
      * @param <T>
-     * @return
+     * @return ミュータブルなリスト
      */
     public static <T> List<Class<?>> getClassHierarchy(Class<? extends T> child, Class<T> parent) {
         List<Class<?>> hierarchy = new ArrayList<>();
@@ -229,5 +232,45 @@ public class GenericsUtil {
         int i = indexOf(values, predicate);
         if (i < 0) return null;
         return values[i];
+    }
+
+    public static class TypeParameterCache {
+
+        // (parent, child)の組み合わせで継承階層をキャッシュする
+        private Map<Class<?>, Map<Class<?>, List<Class<?>>>> hierarchyCache = new ConcurrentHashMap<>();
+
+        // (parent, child, 型パラメータ名)の組み合わせでTypeをキャッシュする
+        private Map<Class<?>, Map<Class<?>, Map<String, Type>>> resultCache = new ConcurrentHashMap<>();
+
+        // Typeから得られるClassをキャッシュする
+        private Map<Type, Class<?>> typeToClassCache = new ConcurrentHashMap<>();
+
+        public <T> List<Class<?>> getClassHierarchy(Class<? extends T> child, Class<T> parent) {
+            // まだparentに結びつくMapがなければ生成してキャッシュする
+            Map<Class<?>, List<Class<?>>> hierarchyMap = hierarchyCache.computeIfAbsent(parent, p -> new ConcurrentHashMap<>());
+            // まだ(parent, child)に結びつく継承階層がなければ取得してキャッシュする
+            List<Class<?>> hierarchy = hierarchyMap.computeIfAbsent(child, c -> {
+                List<Class<?>> h = getClassHierarchy(child, parent);
+                return Collections.unmodifiableList(h);
+            });
+            return hierarchy;
+        }
+
+        public <T> Type getTypeParameterType(Class<? extends T> child, Class<T> parent, String typeParameterName) {
+            // まだparentに結びつくMapがなければ生成してキャッシュする
+            Map<Class<?>, Map<String, Type>> resultMap = resultCache.computeIfAbsent(parent, p -> new ConcurrentHashMap<>());
+            // まだ(parent, child)に結びつくMapがなければ生成してキャッシュする
+            Map<String, Type> typeMap = resultMap.computeIfAbsent(child, c -> new ConcurrentHashMap<>());
+            // まだ(parent, child, 型パラメータ名)に結びつくTypeがなければ取得してキャッシュする
+            Type type = typeMap.computeIfAbsent(typeParameterName, n -> {
+                List<Class<?>> hierarchy = new ArrayList(getClassHierarchy(child, parent));
+                return searchTypeParameterType(hierarchy, typeParameterName);
+            });
+            return type;
+        }
+
+        public Class<?> typeToClass(Type type) {
+            return typeToClassCache.computeIfAbsent(type, t -> typeToClass(t));
+        }
     }
 }
