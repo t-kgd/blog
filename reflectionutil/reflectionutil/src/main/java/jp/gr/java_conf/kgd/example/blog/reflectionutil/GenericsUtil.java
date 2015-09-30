@@ -52,14 +52,18 @@ public class GenericsUtil {
     public static <T> List<Class<?>> getClassHierarchy(Class<? extends T> child, Class<T> parent) {
         List<Class<?>> hierarchy = new ArrayList<>();
         if (parent.isInterface()) {
+            // interfaceは複数回実装されている可能性があるので、走査済みのinterfaceはSetに登録して2度以上走査しないようにする。。
             Set<Class<?>> visited = new HashSet<>();
+            // 目指す親がinterfaceの場合
             traceToInterfaceHierarchy(hierarchy, visited, child, parent);
         } else {
+            // 目指す親がclassの場合
             traceToClassHierarchy(hierarchy, child, parent);
         }
         return hierarchy;
     }
 
+    // 目指す親がclassであれば、順に辿るだけで良い
     private static void traceToClassHierarchy(List<Class<?>> hierarchy, Class<?> child, Class<?> parentClass) {
         hierarchy.add(child);
         if (child.equals(parentClass)) {
@@ -68,12 +72,14 @@ public class GenericsUtil {
         traceToClassHierarchy(hierarchy, child.getSuperclass(), parentClass);
     }
 
+    // 目指す親がinterfaceであれば、全通りを走査し、初めに親子関係が確定した階層を登録する。
     private static void traceToInterfaceHierarchy(List<Class<?>> hierarchy, Set<Class<?>> visited, Class<?> child, Class<?> parentInterface) {
         hierarchy.add(child);
         if (child.equals(parentInterface)) {
             return;
         }
 
+        // どこから親に繋がるかわからないので先にinterfaceをチェック
         for (Class<?> interfaze : child.getInterfaces()) {
             if (visited.contains(interfaze)) continue;
             visited.add(interfaze);
@@ -82,6 +88,7 @@ public class GenericsUtil {
             return;
         }
 
+        // なければ親クラスへ
         traceToInterfaceHierarchy(hierarchy, visited, child.getSuperclass(), parentInterface);
     }
 
@@ -100,7 +107,7 @@ public class GenericsUtil {
     public static <T> Type getTypeParameterType(Class<? extends T> child, Class<T> parent, String typeParameterName) {
         TypeVariable<Class<T>>[] typeParameters = parent.getTypeParameters();
         if (typeParameters.length == 0) return null;
-        if (match(typeParameters, t -> t.getName().equals(typeParameterName)) == null) return null;
+        if (find(typeParameters, t -> t.getName().equals(typeParameterName)) == null) return null;
         return searchTypeParameterType(getClassHierarchy(child, parent), typeParameterName);
     }
 
@@ -136,8 +143,10 @@ public class GenericsUtil {
         return getTypeParameterType(child, parent, 0);
     }
 
+    // エントリ
     private static Type searchTypeParameterType(List<Class<?>> hierarchy, String targetTypeParameterName) {
         Class<?> parent = hierarchy.remove(hierarchy.size() - 1);
+        // ここから再帰
         return searchTypeParameterTypeImpl(hierarchy, parent, targetTypeParameterName);
     }
 
@@ -146,33 +155,25 @@ public class GenericsUtil {
             return null;
         }
 
+        // 親子階層を記録したリストから、currentの1階層下の子Classを取り出す。
         Class<?> child = hierarchy.remove(hierarchy.size() - 1);
 
+        // 子Classから型パラメータがバインドされているかもしれない情報を取り出す。
+        // currentがinterfaceならcurrentの適切な位置から取り出す。
         Type currentType = current.isInterface() ? child.getGenericInterfaces()[indexOf(child.getInterfaces(), t -> t.equals(current))] : child.getGenericSuperclass();
         ParameterizedType parameterizedType = (ParameterizedType) currentType;
 
+        // （型パラメータが複数あるかもしれないので）探したい型パラメータのindexを取得する。
         int typeParameterIndex = indexOf(current.getTypeParameters(), t -> t.getName().equals(targetTypeParameterName));
         Type resultType = parameterizedType.getActualTypeArguments()[typeParameterIndex];
 
+        // まだバインドされていなければ、階層を1つ降りて再帰で走査する
         if (resultType instanceof TypeVariable) {
             TypeVariable<? extends Class<?>> typeVariable = (TypeVariable<? extends Class<?>>) resultType;
             return searchTypeParameterTypeImpl(hierarchy, child, typeVariable.getName());
         } else {
             return resultType;
         }
-    }
-
-    private static <T> int indexOf(T[] values, Predicate<? super T> predicate) {
-        for (int i = 0; i < values.length; i++) {
-            if (predicate.test(values[i])) return i;
-        }
-        return -1;
-    }
-
-    private static <T> T match(T[] values, Predicate<? super T> predicate) {
-        int i = indexOf(values, predicate);
-        if (i < 0) return null;
-        return values[i];
     }
 
     /**
@@ -187,26 +188,46 @@ public class GenericsUtil {
     public static Class<?> typeToClass(Type type) {
         if (type == null) return null;
 
+        // 普通のClass
         if (type instanceof Class) {
             return (Class<?>) type;
         }
 
+        // バインドされた型パラメータ情報を持つが、Classで返す（Raw型）
         if (type instanceof ParameterizedType) {
             return (Class<?>) ((ParameterizedType) type).getRawType();
         }
 
+        // 型パラメータ（Tとかそのままの名前で返るはず）
         if (type instanceof TypeVariable) {
             return type.getClass();
         }
 
+        // ワイルドカード
         if (type instanceof WildcardType) {
             return type.getClass();
         }
 
+        // Tの配列？
         if (type instanceof GenericArrayType) {
             return type.getClass();
         }
 
         throw new RuntimeException("予期せぬ型です。");
+    }
+
+    // 配列操作ユーティリティ
+    private static <T> int indexOf(T[] values, Predicate<? super T> predicate) {
+        for (int i = 0; i < values.length; i++) {
+            if (predicate.test(values[i])) return i;
+        }
+        return -1;
+    }
+
+    // 配列操作ユーティリティ
+    private static <T> T find(T[] values, Predicate<? super T> predicate) {
+        int i = indexOf(values, predicate);
+        if (i < 0) return null;
+        return values[i];
     }
 }
