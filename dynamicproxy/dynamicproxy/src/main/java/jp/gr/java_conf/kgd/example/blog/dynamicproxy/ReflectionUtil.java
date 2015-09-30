@@ -68,6 +68,7 @@ public class ReflectionUtil {
     }
 
     private static void extractInterfacesFromInterfaceImpl(Set<Class<?>> mutableSet, Class<?> interfaze) {
+        if (mutableSet.contains(interfaze)) return;
         mutableSet.add(interfaze);
         for (Class<?> i : interfaze.getInterfaces()) {
             extractInterfacesFromInterfaceImpl(mutableSet, i);
