@@ -25,7 +25,8 @@
 package jp.gr.java_conf.kgd.example.blog.crossgenerics;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.Widget;
+import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 
 public class WidgetExample {
@@ -52,13 +53,17 @@ public class WidgetExample {
     }
 
     public static void main(String[] args) {
-        // WidgetGroupの派生クラスでScene2DのエースTableさんです！
-        Table table = new Table();
+        Widget widget = new Widget();
 
-        // こんな風に呼べる
-        doSomething1(table);
+        WidgetGroup widgetGroup = new WidgetGroup();
+
+        // どっちでも呼べる
+        doSomething1(widget);
+        doSomething1(widgetGroup);
 
         // 一応、ジェネリクスを使わなくてもこんな感じの呼び出しで実現できる
-        doSomething2(table, table); // ←おかしすぎんよ～
+        doSomething2(widget, widget);
+        doSomething2(widgetGroup, widgetGroup);
+        // でもさすがにおかしすぎんよ～
     }
 }
