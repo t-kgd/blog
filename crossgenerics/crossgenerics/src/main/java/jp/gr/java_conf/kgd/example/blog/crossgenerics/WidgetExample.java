@@ -24,7 +24,35 @@
 
 package jp.gr.java_conf.kgd.example.blog.crossgenerics;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.Layout;
+
 public class WidgetExample {
 
+    public static <T extends Actor & Layout> void doSomething1(T widget) {
+        // Actorのメソッド。Layoutでは使えない。
+        widget.act(0);
 
+        // Layoutのメソッド。Actorでは使えない。
+        widget.getPrefWidth();
+    }
+
+    // ジェネリクス無しで実現する場合はこんな風になる。
+    // （actorViewとlayoutViewに同じインスタンスを渡して呼び出す）
+    public static void doSomething2(Actor actorView, Layout layoutView) {
+        // 同じ処理
+        actorView.act(0);
+        layoutView.getPrefWidth();
+    }
+
+    public static void main(String[] args) {
+        WidgetGroup widgetGroup = new WidgetGroup();
+
+        // こんな風に呼べる
+        doSomething1(widgetGroup);
+
+        // 一応、ジェネリクスを使わなくてもこんな感じの呼び出しで実現できる
+        doSomething2(widgetGroup, widgetGroup); // ←おかしすぎんよ～
+    }
 }
