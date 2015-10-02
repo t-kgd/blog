@@ -80,12 +80,31 @@ public class CrossExample {
         int index = random.nextInt(list.size());
         E result = list.get(index);  // ←この部分のオーダーがわからない！
         return result;
-        // ちなみに、ランダムアクセスできないのであれば次のようにするのが普通かもしれません。
-//        int count = 0;
-//        for (E e : list) {
-//            if (count++ == index) return e;
-//        }
-//        throw new AssertionError();
+    }
+
+    // リストからランダムに選んだ２つの整数値を加算して返したいが……
+    public static Integer addRandom(List<Integer> list) {
+        Random random = new Random();
+        int size = list.size();
+        int leftIndex = random.nextInt(size);
+        int rightIndex = random.nextInt(size);
+
+        // こうやりたいけどシーケンシャルアクセスだとまずい
+//        int left = list.get(leftIndex);
+//        int right = list.get(rightIndex);
+
+        int count = 0;
+        Integer left = null;
+        Integer right = null;
+        for (Integer v : list) {
+            if (count == leftIndex) left = v;
+            if (count == rightIndex) right = v;
+            if (left != null && right != null) break;
+        }
+        // これはこれでランダムアクセスだとおいしくない
+
+        int result = left + right;
+        return result;
     }
 
     /**
