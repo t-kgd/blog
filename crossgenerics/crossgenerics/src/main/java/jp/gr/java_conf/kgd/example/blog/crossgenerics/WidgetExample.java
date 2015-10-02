@@ -25,7 +25,7 @@
 package jp.gr.java_conf.kgd.example.blog.crossgenerics;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 
 public class WidgetExample {
@@ -38,21 +38,27 @@ public class WidgetExample {
         widget.getPrefWidth();
     }
 
-    // ジェネリクス無しで実現する場合はこんな風になる。
+    // 一応、ジェネリクス無しで実現する場合はこんな風になる。
     // （actorViewとlayoutViewに同じインスタンスを渡して呼び出す）
     public static void doSomething2(Actor actorView, Layout layoutView) {
-        // 同じ処理
+        // 違うインスタンスが渡せてしまうので、チェックする
+        if (actorView != layoutView) {
+            throw new IllegalArgumentException("actorViewとlayoutViewは同じインスタンスでなければいけません");
+        }
+
+        // 以下、同じ処理
         actorView.act(0);
         layoutView.getPrefWidth();
     }
 
     public static void main(String[] args) {
-        WidgetGroup widgetGroup = new WidgetGroup();
+        // WidgetGroupの派生クラスでScene2DのエースTableさんです！
+        Table table = new Table();
 
         // こんな風に呼べる
-        doSomething1(widgetGroup);
+        doSomething1(table);
 
         // 一応、ジェネリクスを使わなくてもこんな感じの呼び出しで実現できる
-        doSomething2(widgetGroup, widgetGroup); // ←おかしすぎんよ～
+        doSomething2(table, table); // ←おかしすぎんよ～
     }
 }
