@@ -45,4 +45,11 @@ public class MeaninglessGenericsExample {
     public static void printNumberAsInt2(Number number) {
         System.out.println(number.intValue());
     }
+
+    // 戻り値を受け取る側の型で型推論させる場合はそれなりに意味があります。
+    // ただこれは本質的な型安全ではないです。
+    // JavaFXのFXMLLoader#loadはめちゃくちゃ危ないと思います。
+    public static <T> T newInstance(String className) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+        return (T) Class.forName(className).newInstance();
+    }
 }
