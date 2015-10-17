@@ -60,6 +60,7 @@ public class VirtualClassLoader extends ClassLoader {
 
     @Override
     public InputStream getResourceAsStream(String name) {
+        // 親の実装だとFile経由で取得しようとするのでオーバーライドしておく
         return resourceLoader.getResourceAsStream(name);
     }
 
