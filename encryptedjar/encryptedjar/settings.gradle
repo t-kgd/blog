@@ -1,0 +1,4 @@
+rootProject.name = 'encryptedjar'
+include 'interfacejar'
+include 'impljar'
+

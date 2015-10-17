@@ -1,0 +1,17 @@
+group 'jp.gr.java_conf.kgd.example.blog.encryptedjar.impljar'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'maven'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    compile 'jp.gr.java_conf.kgd.example.blog.encryptedjar.interfacejar:interfacejar:1.0-SNAPSHOT'
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
