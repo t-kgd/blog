@@ -1,0 +1,21 @@
+@startuml
+
+interface ResourceLoader {
++getResourceAsStream(): InputStream
+}
+
+ResourceLoader <|.. Zip4jResourceLoader
+class Zip4jResourceLoader {
+-zipFile: ZipFile
++ <<override>> getResourceAsStream(): InputStream
+}
+Zip4jResourceLoader o---u net.lingala.zip4j.core.ZipFile
+
+java.lang.ClassLoader <|- VirtualClassLoader
+class VirtualClassLoader {
+- resourceLoader: ResourceLoader
++ <<override>> findClass(name: String): Class
+}
+VirtualClassLoader o- ResourceLoader
+
+@enduml
