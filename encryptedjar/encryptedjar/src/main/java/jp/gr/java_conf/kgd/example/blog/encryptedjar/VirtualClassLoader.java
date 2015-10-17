@@ -55,7 +55,6 @@ public class VirtualClassLoader extends ClassLoader {
         byte[] bytes = byteArrayOutputStream.toByteArray();
         // byte[]からClassを生成
         Class<?> clazz = defineClass(name, bytes, 0, bytes.length);
-        System.out.println("呼び出された");
         return clazz;
     }
 
