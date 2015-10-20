@@ -1,0 +1,62 @@
+@startuml
+
+interface Foo {
++getName(): String
+}
+
+Foo <|-- MutableFoo
+interface MutableFoo {
++setName(name: String): void
+}
+
+MutableFoo <|.. SimpleFoo
+class SimpleFoo {
+-name: String
+'+<<override>> getName(): String
+'+<<override>> setName(name: String): void
+}
+
+interface ListenerRegister<T> {
++addListener(listener: T): void
++removeListener(listener: T): void
+}
+
+ListenerRegister <|-- ListenerManager
+interface ListenerManager<T> {
++processListeners(processor: Consumer<? super T>): void
+}
+
+ListenerManager <|.. SimpleListenerManager
+class SimpleListenerManager<T> {
+-list: List<T>
+'+<<override>> addListener(listener: T): void
+'+<<override>> removeListener(listener: T): void
+'+<<override>>processListeners(processor: Consumer<? super T>): void
+}
+
+Foo <|- ObservableFoo
+ListenerRegister <|-l ObservableFoo
+interface ObservableFoo {
+}
+
+ObservableFoo <|-- MutableObservableFoo
+MutableFoo <|- MutableObservableFoo
+interface MutableObservableFoo {
+}
+
+MutableObservableFoo <|.. MutableFooToObservableDecorator
+class MutableFooToObservableDecorator {
+-foo: MutableFoo
+'-listenerManager: ListenerManager<Consumer<Foo>>
+-listenerManager: ListenerManager
+}
+MutableFooToObservableDecorator o-- MutableFoo
+MutableFooToObservableDecorator o- ListenerManager
+SimpleListenerManager <-- MutableFooToObservableDecorator : create
+
+MutableFooToObservableDecorator <|-- SimpleMutableObservableFoo
+class SimpleMutableObservableFoo {
+}
+SimpleFoo <-- SimpleMutableObservableFoo : create
+
+@enduml

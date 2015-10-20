@@ -1,0 +1,19 @@
+@startuml
+
+interface Foo {
++getName(): String
+}
+
+Foo <|-- MutableFoo
+interface MutableFoo {
++setName(name: String): void
+}
+
+MutableFoo <|.. SimpleFoo
+class SimpleFoo {
+-name: String
++<<override>> getName(): String
++<<override>> setName(name: String): void
+}
+
+@enduml
