@@ -39,12 +39,12 @@ ListenerRegister <|-l ObservableFoo
 interface ObservableFoo {
 }
 
-ObservableFoo <|-- MutableObservableFoo
-MutableFoo <|- MutableObservableFoo
-interface MutableObservableFoo {
+ObservableFoo <|-- ObservableMutableFoo
+MutableFoo <|- ObservableMutableFoo
+interface ObservableMutableFoo {
 }
 
-MutableObservableFoo <|.. MutableFooToObservableDecorator
+ObservableMutableFoo <|.. MutableFooToObservableDecorator
 class MutableFooToObservableDecorator {
 -foo: MutableFoo
 '-listenerManager: ListenerManager<Consumer<Foo>>
